@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Qi Jin - A data enthusiast</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link href="css/clean-blog.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Qi Jin</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="resume.html">Resume</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="blog.html">Blog</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="project.html">Project</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('img/blog.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            <h1>Bayesian Estimation, MLE, MAP, Information Theory</h1>
+            <h2 class="subheading">Basic concepts of statistical machine learning</h2>
+            <span class="meta">Posted by
+              <a href="#">Qi Jin</a>
+              on Jun 3, 2020</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Post Content -->
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <h1 id="bayesian-estimation-mle-map-information-theory">Bayesian Estimation, MLE, MAP, Information Theory</h1>
+          <p> </p>
+		  <h4 id="-1-overview-"><strong>1. Overview</strong></h4>
+          <p>Basic concepts of Bayesian Estimation, Maximum Likelihood Estimation, Maximum A Posteriori Estimation</p>
+          <h4 id="-2-background-knowledge-"><strong>2. Background Knowledge</strong></h4>
+          <p><strong>2.1 Probability and Statistics</strong> </p>
+          <ul>
+          <li><p><strong>Probability:</strong> <strong>Given a data generating process, what are the properties of the outcomes?</strong></p>
+          <p>  <em>概率论是在给定条件（已知模型和参数）下，对要发生的事件（新输入数据）的预测。</em></p>
+          </li>
+          <li><p><strong>Statistical Inference:</strong> <strong>Given the outcomes, what can we say about the process that generated the data</strong></p>
+          <p>  <em>统计推断是在给定数据（训练数据）下，对数据生成方式（模型和参数）的归纳总结。</em></p>
+          </li>
+          </ul>
+          <p><strong>2.2 Descriptive statistics &amp; Statistical inference</strong></p>
+          <ul>
+          <li><strong>Descriptive statistics:</strong> are brief descriptive coefficients (eg. <em>mean, variance, median, quartile</em> ) that summarize a given data set, which can be either a representation of the <strong>entire</strong> or <strong>a sample of a population</strong>.</li>
+          <li><strong>Statistical inference:</strong> is the process of using data analysis from   <strong>a sample of a population</strong> to deduce properties of an underlying distribution of probability. Inferential statistical analysis infers properties of a population, for example by testing hypotheses and deriving estimates.</li>
+          </ul>
+          <p><strong>2.3 Joint Probability &amp; Marginal Probability</strong></p>
+          <ul>
+          <li><p><strong>Joint Probability:</strong> is a statistical measure that calculates the likelihood of multiple events occurring together at the same point of time.</p>
+          <p>  Suppose there are 2 random variables A and B, <span class="math inline">P(A=a,B=b)</span> represents the probability of A = a and B = b are happening <strong>together</strong>. And the probability of multiple events occurring together at the same time is called <strong>Joint Probability</strong>.</p>
+          </li>
+          <li><p><strong>Marginal Probability:</strong> is the probability of an event irrespective of the outcome of another variable.
+            <p>
+				<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{align*}&space;P(A=a)&space;&=&space;\sum_{b}&space;P(A=a,&space;B=b)&space;\\&space;P(B=b)&space;&=&space;\sum_{a}&space;P(A=a,&space;B=b)&space;\end{align*}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{align*}&space;P(A=a)&space;&=&space;\sum_{b}&space;P(A=a,&space;B=b)&space;\\&space;P(B=b)&space;&=&space;\sum_{a}&space;P(A=a,&space;B=b)&space;\end{align*}" title="\begin{align*} P(A=a) &= \sum_{b} P(A=a, B=b) \\ P(B=b) &= \sum_{a} P(A=a, B=b) \end{align*}" /></a>
+			</p>
+			</p>
+          </li>
+          </ul>
+          <p><strong>2.4 Conditional Probability</strong></p>
+          <p><em>Conditional Probability is the probability of one event occurring in the presence of a second event.</em></p>
+          <p><strong>2.5 Relationship between Joint Probability, Marginal Probability &amp; Conditional Probability</strong></p>
+          <p><img src="https://latex.codecogs.com/gif.latex?P(A|B)&space;=&space;\frac{P(A,B)}{P(B)}" title="P(A|B) = \frac{P(A,B)}{P(B)}" /></p>
+          <p><img src="https://latex.codecogs.com/gif.latex?P(A,B)&space;=P(A)\cdot&space;P(B|A)=P(B)\cdot&space;P(A|B)" title="P(A,B) =P(A)\cdot P(B|A)=P(B)\cdot P(A|B)" /></p>
+          <p><strong>2.6 Law of total probability</strong></p>
+          <p>If <img src="https://latex.codecogs.com/gif.latex?A_1,&space;A_2,&space;A_3,&space;...,&space;A_n" title="A_1, A_2, A_3, ..., A_n" /> is a finite or countably infinite partition of a sample space (in other words, a set of pairwise <strong>disjoint</strong> events whose <strong>union is the entire sample space</strong> ) and each event <img src="https://latex.codecogs.com/gif.latex?A_i" title="A_i" /> is measurable(in other words, <img src="https://latex.codecogs.com/gif.latex?P(A_i)&gt;0" title="P(A_i)&gt;0" />), then for any event B of the same probability space:
+          <p><img src="https://latex.codecogs.com/gif.latex?\begin{align*}&space;P(B)&=P(B|A_1)P(A_1)&plus;P(B|A_2)P(A_2)&plus;...&plus;P(B|A_n)P(A_n)\\\\&space;&=\sum_{i=1}^{n}P(B|A_i)P(A_i)&space;\end{align*}" title="\begin{align*} P(B)&=P(B|A_1)P(A_1)+P(B|A_2)P(A_2)+...+P(B|A_n)P(A_n)\\\\ &=\sum_{i=1}^{n}P(B|A_i)P(A_i) \end{align*}" /></p>
+          <p><strong>2.7 Bayes&#39; Theorem</strong>
+		  <p ><img align="middle" src="https://latex.codecogs.com/gif.latex?P(H\&space;|\&space;E)&space;=\frac{P(E\&space;|\&space;H)\cdot&space;P(H)}{P(E)}" title="P(H\ |\ E) =\frac{P(E\ |\ H)\cdot P(H)}{P(E)}" /></p>
+              </p>
+          <ul>
+          <li><img src="https://latex.codecogs.com/gif.latex?H" title="H" /> = <strong><em>Hypothesis</em></strong> whose probability may be affected by data (called evidence below)</li>
+          <li><p><img src="https://latex.codecogs.com/gif.latex?P(H)" title="P(H)" /> = <strong><em>Priori Probability</em></strong>, is the estimate of the probability of the hypothesis </p>
+          </li>
+          <li><p><img src="https://latex.codecogs.com/gif.latex?E" title="E" /> = <strong><em>Evidence</em></strong> or Observation, corresponds to new data that were not used in computing the prior probability.</p>
+          </li>
+          </ul>
+          <ul>
+          <li><img src="https://latex.codecogs.com/gif.latex?P(H&space;|&space;E)" title="P(H | E)" /> = <strong><em>Posterior Probability</em></strong>, is the probability of H given E, i.e., after E is observed. This is what we want to know: the probability of a hypothesis given the observed evidence.</li>
+          </ul>
+          <ul>
+          <li><img src="https://latex.codecogs.com/gif.latex?P(E\&space;|\&space;H)" title="P(E\ |\ H)" /> = <strong><em>Likelihood</em></strong>, is the probability of observing E given H. As a function of E with H fixed, it indicates the compatibility of the evidence with the given hypothesis. The likelihood function is a function of the evidence, E, while the posterior probability is a function of the hypothesis, H.</li>
+          </ul>
+          <ul>
+          <li><img src="https://latex.codecogs.com/gif.latex?P(E)" title="P(E)" /> =  is sometimes termed as the <strong><em>marginal likelihood</em></strong> or &quot;model evidence&quot;. This factor is the same for all possible hypotheses being considered (as is evident from the fact that the hypothesis H does not appear anywhere in the symbol, unlike for all the other factors), so this factor does not enter into determining the relative probabilities of different hypotheses.</li>
+          </ul>
+          <p><img src="https://latex.codecogs.com/gif.latex?\begin{align*}&space;Posterior&space;&=&space;\frac{Likelihood&space;*&space;Priori}{Marginal\&space;Likelihood}\\\\&space;&=&space;Standard\&space;Likelihood\&space;Ratio&space;(LR)&space;*&space;Priori&space;\end{align*}" title="\begin{align*} Posterior &= \frac{Likelihood * Priori}{Marginal\ Likelihood}\\\\ &= Standard\ Likelihood\ Ratio (LR) * Priori \end{align*}" /></p>
+          <ul>
+          <li><p>LR &gt; 1, Priori <img src="https://latex.codecogs.com/gif.latex?P(H)" title="P(H)" /> will be enhanced, <img src="https://latex.codecogs.com/gif.latex?P(E)" title="P(E)" /> will increase <img src="https://latex.codecogs.com/gif.latex?P(H)" title="P(H)" /></p>
+          </li>
+          <li><p>LR = 1, Priori <img src="https://latex.codecogs.com/gif.latex?P(H)" title="P(H)" /> will not change, <img src="https://latex.codecogs.com/gif.latex?P(E)" title="P(E)" /> will not affect <img src="https://latex.codecogs.com/gif.latex?P(H)" title="P(H)" /></p>
+          </li>
+          </ul>
+          <ul>
+          <li>LR &lt; 1, Priori <img src="https://latex.codecogs.com/gif.latex?P(H)" title="P(H)" /> will be weaken, <img src="https://latex.codecogs.com/gif.latex?P(E)" title="P(E)" /> will decrease <img src="https://latex.codecogs.com/gif.latex?P(H)" title="P(H)" /></li>
+          </ul>
+          <p><strong>Based on Bayes&#39; Theorem &amp; Law of total probability:</strong></p>
+          <p>
+			  <div margin:auto;display: block;><img src="https://latex.codecogs.com/gif.latex?\begin{align*}&space;P(H_i|E)&space;&=&space;\frac{P(E|&space;H_i)&space;\cdot&space;P(H_i)}{P(E)}\\\\&space;&=&space;\frac{P(E|&space;H_i)&space;\cdot&space;P(E)}{\sum_{i=1}^{n}P(E|H_i)\cdot&space;P(H_i)}&space;\end{align*}" title="\begin{align*} P(H_i|E) &= \frac{P(E| H_i) \cdot P(H_i)}{P(E)}\\\\ &= \frac{P(E| H_i) \cdot P(E)}{\sum_{i=1}^{n}P(E|H_i)\cdot P(H_i)} \end{align*}" /></div>
+		  </p>
+          <p><strong>2.8 Likelihood &amp; Probability</strong></p>
+          <ul>
+          <li><strong>Probability</strong> is about a prediction of possible outcomes, given parameters. </li>
+          <li><strong>Likelihood</strong> is about an estimation of parameters, given an outcome.</li>
+          </ul>
+          <p><strong>2.9 Likelihood Function &amp; Probability Function</strong></p>
+          <p>For <img src="https://latex.codecogs.com/gif.latex?P(x|\theta)" title="P(x|\theta)" />, there are 2 different perspectives to view it:</p>
+          <ul>
+          <li><p>If <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" /> is known and constant, <img src="https://latex.codecogs.com/gif.latex?x" title="x" /> is an unknown variable, then <img src="https://latex.codecogs.com/gif.latex?P(x|\theta)" title="P(x|\theta)" /> is a probability function that represents the probability of different <img src="https://latex.codecogs.com/gif.latex?x" title="x" />.</p>
+          </li>
+          <li><p>If random variable <img src="https://latex.codecogs.com/gif.latex?x" title="x" /> is now known and constant, <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" /> is an unknown constant, then <img src="https://latex.codecogs.com/gif.latex?P(x|\theta)" title="P(x|\theta)" /> is a likelihood function that represents the probability of <img src="https://latex.codecogs.com/gif.latex?x" title="x" /> given different <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" />. Normally, we denote it as <img src="https://latex.codecogs.com/gif.latex?L(\theta|x)" title="L(\theta|x)" /></p>
+          </li>
+          </ul>
+          <p><strong>2.10 Frequentist vs Bayesian</strong></p>
+          <p><img src="https://latex.codecogs.com/gif.latex?x&space;\sim&space;p(x|\theta)" title="x \sim p(x|\theta)" /></p>
+          <ul>
+          <li><p><strong>Frequentist:</strong> They think only repeatable random events have probabilities. <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" /> is an unknown constant, and <img src="https://latex.codecogs.com/gif.latex?x" title="x" /> is a random variable.</p>
+          <p>  <strong>MLE:</strong> <img src="https://latex.codecogs.com/gif.latex?\theta_{MLE}&space;=&space;\underset{\theta}{argmax}\&space;\sum_{i=1}^{N}log\&space;p(x_i|\theta)" title="\theta_{MLE} = \underset{\theta}{argmax}\ \sum_{i=1}^{N}log\ p(x_i|\theta)" /></p>
+          </li>
+          <li><p><strong>Bayesian:</strong> They define probability distributions over possible values of a parameter which can then be used for other purposes. <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" /> is a random variable, and has its priori <img src="https://latex.codecogs.com/gif.latex?p(\theta)" title="p(\theta)" /> and follows a distribution.</p>
+          <p>  <strong>MAP:</strong> <img src="https://latex.codecogs.com/gif.latex?\theta_{MAP}&space;=&space;\underset{\theta}{argmax}\&space;p(\theta|x)&space;\propto&space;\underset{\theta}{argmax}\&space;p(x|\theta)&space;*&space;p(\theta)" title="\theta_{MAP} = \underset{\theta}{argmax}\ p(\theta|x) \propto \underset{\theta}{argmax}\ p(x|\theta) * p(\theta)" /></p>
+          </li>
+          </ul>
+          <p><strong>2.11 Conjugate</strong></p>
+          <p><em>If a posterior distribution and prior probability distribution are in the same probability distribution family, then they are called conjugate distributions, and the prior is called a conjugate prior for the likelihood function.</em></p>
+          <p>Conjugate priors are useful because they reduce Bayesian updating to modifying the parameters of the prior distribution (so-called hyperparameters) rather than computing integrals.</p>
+          <p><strong>Will have a topic focus on this.</strong></p>
+          <h4 id="example-">Example:</h4>
+          <p>We have a coin, and want to estimate the probability of heads <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" />. In order to estimate it, we flip the coin for 10 times (independent &amp; identically distributed i.i.d), and the results is 6 heads, 4 tails.</p>
+          <h4 id="3-maximum-likelihood-estimation-from-bernoulli-distribution-">3. Maximum Likelihood Estimation (From Bernoulli Distribution)</h4>
+          <p>Given observations, MLE is to find a parameter that maximize the probability of the observations. </p>
+          <p>For a i.i.d sample set, the overall likelihood is the product of likelihood of every sample. And to estimate <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" /> in the example question, we have likelihood function as
+          <img src="https://latex.codecogs.com/gif.latex?L(\theta|x)&space;=&space;\prod_{i=1}^{N}P(x_i|\theta)&space;=&space;\theta^k(1-\theta)^{n-k}&space;=&space;\theta^6(1-\theta)^4" title="L(\theta|x) = \prod_{i=1}^{N}P(x_i|\theta) = \theta^k(1-\theta)^{n-k} = \theta^6(1-\theta)^4" /></p>
+          <p>where <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" /> is an unknown constant, and <img src="https://latex.codecogs.com/gif.latex?x" title="x" /> is a random variable.<br>For mathematical convenient, we convert likelihood function to log likelihood function:</p>
+          <p><img src="https://latex.codecogs.com/gif.latex?\begin{align*}&space;log\&space;L(\theta|x)&space;&=&space;\sum_{i=1}^{N}log(P(x_i|\theta))&space;\\\\&space;&=&space;klog\theta&space;&plus;&space;(n-k)log(1-\theta)&space;\\\\&space;&=&space;6log\theta&space;&plus;&space;4log(1-\theta)&space;\end{align*}" title="\begin{align*} log\ L(\theta|x) &= \sum_{i=1}^{N}log(P(x_i|\theta)) \\\\ &= klog\theta + (n-k)log(1-\theta) \\\\ &= 6log\theta + 4log(1-\theta) \end{align*}" /></p>
+          <p>Then calculate the maximum likelihood by derivative:</p>
+          <p><img src="https://latex.codecogs.com/gif.latex?\begin{align*}&space;&&space;log\&space;L(\theta|x)'&space;=&space;0\\\\&space;\Rightarrow&space;&\frac{k}{\theta}-\frac{n-k}{1-\theta}&space;=&space;0&space;\\\\&space;\Rightarrow&space;&\frac{6}{\theta}-\frac{4}{1-\theta}&space;=&space;0&space;\\\\&space;\Rightarrow&space;&\theta&space;=&space;\frac{k}{n}&space;=&space;0.6&space;\end{align*}" title="\begin{align*} & log\ L(\theta|x)' = 0\\\\ \Rightarrow &\frac{k}{\theta}-\frac{n-k}{1-\theta} = 0 \\\\ \Rightarrow &\frac{6}{\theta}-\frac{4}{1-\theta} = 0 \\\\ \Rightarrow &\theta = \frac{k}{n} = 0.6 \end{align*}" /></p>
+          <h4 id="mle-of-gaussian-distribution">MLE of Gaussian Distribution</h4>
+          <p>Suppose a sample set follows normal distribution i.i.d. <img src="https://latex.codecogs.com/gif.latex?N&space;\sim&space;(\mu,&space;\sigma^2&space;)" title="N \sim (\mu, \sigma^2 )" />, its likelihood function is
+          <p><img src="https://latex.codecogs.com/gif.latex?L(\mu,\sigma^2)=\prod_{i=1}^{N}\frac{1}{\sqrt{2\pi}\sigma}&space;e^{-\frac{(x_i-\mu)^2}{2\sigma^2}}" title="L(\mu,\sigma^2)=\prod_{i=1}^{N}\frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{(x_i-\mu)^2}{2\sigma^2}}" /></p>
+          <p><strong>Log Likelihood:</strong>
+          <p><img src="https://latex.codecogs.com/gif.latex?log\&space;L(\mu,\sigma^2)=-\frac{N}{2}log2\pi-\frac{N}{2}log&space;\sigma^2&space;-\frac{1}{2\sigma^2}\sum_{i=1}^{N}(x_i-\mu)^2" title="log\ L(\mu,\sigma^2)=-\frac{N}{2}log2\pi-\frac{N}{2}log \sigma^2 -\frac{1}{2\sigma^2}\sum_{i=1}^{N}(x_i-\mu)^2" /></p>
+          <p><strong>Derivatives</strong>
+          <p><img src="https://latex.codecogs.com/gif.latex?\begin{align*}&space;\Bigg\lbrace\begin{matrix}\frac{\partial\&space;log\&space;L(\mu,\sigma^2)}{\partial\&space;\mu}=&\frac{1}{\sigma^2}\sum_{i=1}^{N}(x_i-\mu)&=0&space;\\\\&space;\frac{\partial\&space;log\&space;L(\mu,\sigma^2)}{\partial\&space;\sigma^2}=&-\frac{N}{2\sigma^2}-\frac{1}{2\sigma^4}\sum_{i=1}^{N}(x_i-\mu)^2&&space;=0&space;\end{matrix}&space;\end{align*}" title="\begin{align*} \Bigg\lbrace\begin{matrix}\frac{\partial\ log\ L(\mu,\sigma^2)}{\partial\ \mu}=&\frac{1}{\sigma^2}\sum_{i=1}^{N}(x_i-\mu)&=0 \\\\ \frac{\partial\ log\ L(\mu,\sigma^2)}{\partial\ \sigma^2}=&-\frac{N}{2\sigma^2}-\frac{1}{2\sigma^4}\sum_{i=1}^{N}(x_i-\mu)^2& =0 \end{matrix} \end{align*}" /></p>
+		  </p>
+          <p> <strong>Results</strong>
+           <p><img src="https://latex.codecogs.com/gif.latex?\begin{align*}&space;\Bigg\lbrace\begin{matrix}&space;\hat&space;\mu&space;=&&space;\bar&space;x&space;\\\\&space;\hat&space;\sigma^2&space;=&&space;\frac{1}{N}\sum_{i=1}^{N}(x_i-\bar&space;x)^2&space;\end{matrix}&space;\end{align*}" title="\begin{align*} \Bigg\lbrace\begin{matrix} \hat \mu =& \bar x \\\\ \hat \sigma^2 =& \frac{1}{N}\sum_{i=1}^{N}(x_i-\bar x)^2 \end{matrix} \end{align*}" /></p>
+		   </p>
+          <h4 id="4-maximum-a-posteriori-estimation">4. Maximum A Posteriori Estimation</h4>
+          <p>MLE treats <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" /> as an unknown constant, and estimates it by maximizing likelihood function, while MAP thinks <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" /> as a random variable in some distribution, which is called prior probability distribution. When we estimate <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" />, we should not only consider likelihood <img src="https://latex.codecogs.com/gif.latex?P(X|\theta)" title="P(X|\theta)" />, but also priori <img src="https://latex.codecogs.com/gif.latex?p(\theta)" title="p(\theta)" />. And the best estimate of <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" /> is the <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" /> that maximize <img src="https://latex.codecogs.com/gif.latex?P(X|\theta)P(\theta)" title="P(X|\theta)P(\theta)" />. </p>
+          <p>Now, we want to maximize <img src="https://latex.codecogs.com/gif.latex?P(X|\theta)P(\theta)" title="P(X|\theta)P(\theta)" />. Since <img src="https://latex.codecogs.com/gif.latex?P(X)" title="P(X)" /> is a fix value, we can find <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" /> by maximizing <img src="https://latex.codecogs.com/gif.latex?\frac{P(X|\theta)P(\theta)}{P(X)}" title="\frac{P(X|\theta)P(\theta)}{P(X)}" />. Based on Bayes Theorem, <img src="https://latex.codecogs.com/gif.latex?P(\theta|X)=\frac{P(X|\theta)P(\theta)}{P(X)}" title="P(\theta|X)=\frac{P(X|\theta)P(\theta)}{P(X)}" />, and <img src="https://latex.codecogs.com/gif.latex?P(\theta|X)" title="P(\theta|X)" /> is the posterior probability of <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" />, our target become maximizing a posteriori.</p>
+          <hr>
+          <p>NOTE: <strong>MAP estimation as regularization of MLE, <img src="https://latex.codecogs.com/gif.latex?p(\theta)" title="p(\theta)" /> is the regularizer.</strong></p>
+          <hr>
+          <p><strong><em>Equation:</em></strong>
+          <p><img src="https://latex.codecogs.com/gif.latex?\begin{align*}&space;\hat\theta_{MAP}&space;&=&space;\underset{\theta}{argmax}\&space;P(\theta|X)&space;\\\\&=\underset{\theta}{argmax}\&space;\frac{P(X|\theta)P(\theta)}{P(X)}&space;\\\\&\propto&space;\underset{\theta}{argmax}\&space;P(X|\theta)&space;P(\theta)&space;\end{align*}" title="\begin{align*} \hat\theta_{MAP} &= \underset{\theta}{argmax}\ P(\theta|X) \\\\&=\underset{\theta}{argmax}\ \frac{P(X|\theta)P(\theta)}{P(X)} \\\\&\propto \underset{\theta}{argmax}\ P(X|\theta) P(\theta) \end{align*}" /></p>
+		  </p>
+          <p>Back to the example, now we have a priori. We normally assume that the coin is a fair one, and it follows Beta distribution. So we assume $\alpha$ and <img src="https://latex.codecogs.com/gif.latex?\beta" title="\beta" /> are known, and <img src="https://latex.codecogs.com/gif.latex?\theta&space;\sim&space;Beta(\alpha,\beta)" title="\theta \sim Beta(\alpha,\beta)" /> is:
+          <p><img src="https://latex.codecogs.com/gif.latex?Beta(\theta&space;|&space;\alpha,\beta)&space;=&space;\frac{1}{B(\alpha,\beta)}&space;\theta^{\alpha&space;-1}&space;(1-\theta)^{\beta&space;-&space;1}=\frac{\Gamma(\alpha,\beta)}{\Gamma(\alpha)&space;\Gamma(\beta)}&space;\theta^{\alpha&space;-1}&space;(1-\theta)^{\beta&space;-&space;1}" title="Beta(\theta | \alpha,\beta) = \frac{1}{B(\alpha,\beta)} \theta^{\alpha -1} (1-\theta)^{\beta - 1}=\frac{\Gamma(\alpha,\beta)}{\Gamma(\alpha) \Gamma(\beta)} \theta^{\alpha -1} (1-\theta)^{\beta - 1}" /></p>
+          <strong>Estimate <img src="https://latex.codecogs.com/gif.latex?\hat\theta" title="\hat\theta" />:</strong>
+          <p><img src="https://latex.codecogs.com/gif.latex?\begin{align*}&space;\hat\theta_{MAP}&space;=\&space;&\underset{\theta}{argmax}\&space;P(X|\theta)&space;P(\theta)\\\\&space;=\&space;&&space;\underset{\theta}{argmax}\&space;\theta^k\times(1-\theta)^{n-k}\times&space;\frac{\Gamma(\alpha,\beta)}{\Gamma(\alpha)&space;\Gamma(\beta)}&space;\theta^{\alpha&space;-1}&space;(1-\theta)^{\beta&space;-&space;1}\\\\&space;\Rightarrow\&space;&\underset{\theta}{argmax}\&space;log\&space;P(X|\theta)&space;P(\theta)&space;\\\\&space;=\&space;&\underset{\theta}{argmax}\&space;k\log&space;\theta&space;&plus;&space;(n-k)&space;\log&space;(1-\theta)&plus;&space;\frac{\alpha-1}{\theta}&space;-&space;\frac{\beta}{1-\mu}\\\\&space;\end{align*}" title="\begin{align*} \hat\theta_{MAP} =\ &\underset{\theta}{argmax}\ P(X|\theta) P(\theta)\\\\ =\ & \underset{\theta}{argmax}\ \theta^k\times(1-\theta)^{n-k}\times \frac{\Gamma(\alpha,\beta)}{\Gamma(\alpha) \Gamma(\beta)} \theta^{\alpha -1} (1-\theta)^{\beta - 1}\\\\ \Rightarrow\ &\underset{\theta}{argmax}\ log\ P(X|\theta) P(\theta) \\\\ =\ &\underset{\theta}{argmax}\ k\log \theta + (n-k) \log (1-\theta)+ \frac{\alpha-1}{\theta} - \frac{\beta}{1-\mu}\\\\ \end{align*}" /></p>
+		  </p>
+          <p>After Derivative, 
+		  <p><img src="https://latex.codecogs.com/gif.latex?\hat\theta_{MAP}&space;=&space;\frac{k&plus;\alpha-1}{n&space;&plus;&space;\alpha&space;&plus;&space;\beta&space;-&space;2}" title="\hat\theta_{MAP} = \frac{k+\alpha-1}{n + \alpha + \beta - 2}" /></p>
+		  </p>
+          <p><strong>NOTE: MAP is MLE plus some prior parameter. And when $n$ is large enough, MLE is getting close to MAP.</strong></p>
+          <h4 id="mle-map">MLE &amp; MAP</h4>
+          <p>当MLE的数据量最够大时，逼近MAP。</p>
+          <h4 id="5-bayesian-estimation">5. Bayesian Estimation</h4>
+          <p>Bayesian Estimation is an extension of MAP. Similar to the MAP, Bayesian Estimation assumes that <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" /> is a random variable, but instead of estimating a specific value for <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" />, <strong>it estimates the probability distribution of <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" />. (This is the difference between MAP and Bayesian Estimation)</strong>  In Bayesian Estimation, <img src="https://latex.codecogs.com/gif.latex?P(X)" title="P(X)" /> <strong><em>can not be neglected.</em></strong></p>
+          <p>In our example, we&#39;ve already known <img src="https://latex.codecogs.com/gif.latex?x" title="x" /><strong>(events)</strong>, so the probability distribution of <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" /> given events is <img src="https://latex.codecogs.com/gif.latex?P(\theta|X)" title="P(\theta|X)" />, and this is a posterior distribution. </p>
+          <p>If this posterior distribution has a narrow range, then the estimation is more precise, on the contrary, if the posterior distribution has a large range, then the accuracy of estimation is lower.</p>
+          <p><strong>Bayes Theorem:</strong>
+          <p><img src="https://latex.codecogs.com/gif.latex?\begin{align*}&space;P(\theta|X)&space;&=&space;\frac{P(X|&space;\theta)&space;\cdot&space;P(\theta)}{P(X)}&space;\end{align*}" title="\begin{align*} P(\theta|X) &= \frac{P(X| \theta) \cdot P(\theta)}{P(X)} \end{align*}" /></p>
+		  </p>
+          <p>When X is a continuous random variable, <img src="https://latex.codecogs.com/gif.latex?P(X)&space;=&space;\int_{\theta}P(X|\theta)P(\theta)d\theta" title="P(X) = \int_{\theta}P(X|\theta)P(\theta)d\theta" />, and</p>
+          <p><img src="https://latex.codecogs.com/gif.latex?\begin{align*}&space;P(\theta|X)&space;&=&space;\frac{P(X|&space;\theta)&space;\cdot&space;P(\theta)}{\int_{\theta}P(X|\theta)P(\theta)d\theta}&space;\end{align*}" title="\begin{align*} P(\theta|X) &= \frac{P(X| \theta) \cdot P(\theta)}{\int_{\theta}P(X|\theta)P(\theta)d\theta} \end{align*}" /></p>
+          <p>It is impossible to calculate this integral <img src="https://latex.codecogs.com/gif.latex?P(X)&space;=&space;\int_{\theta}P(X|\theta)P(\theta)d\theta" title="P(X) = \int_{\theta}P(X|\theta)P(\theta)d\theta" />, the option is we choose using conjugate distribution. </p>
+          <h1 id="-with-a-conjugate-prior-the-posterior-is-of-the-same-type-in-our-example-for-binomial-likelihood-the-beta-prior-becomes-a-beta-posterior-"><strong><em>With a conjugate prior the posterior is of the same type, in our example, for binomial likelihood the beta prior becomes a beta posterior.</em></strong></h1>
+          <h1 id="-to-be-fixed-"><strong>To be fixed</strong></h1>
+          <h2 id="conclusion">Conclusion</h2>
+          <p>MLE, MAP and Bayesian Estimation can be viewed as 3 steps of estimation, for each step, we use more information.</p>
+          <p>MLE and MAP, both of them assume <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" /> is an unknown constant. The difference here is MAP takes priori into consideration <img src="https://latex.codecogs.com/gif.latex?P(X|\theta)P(X)" title="P(X|\theta)P(X)" />, while MLE <img src="https://latex.codecogs.com/gif.latex?P(X|\theta)" title="P(X|\theta)" /> does not. </p>
+          <p>Bayesian Estimation, on the other hand, assumes <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" /> is an unknown random variable, and gives us the posterior distribution of <img src="https://latex.codecogs.com/gif.latex?\theta" title="\theta" /> given <img src="https://latex.codecogs.com/gif.latex?x" title="x" />, <img src="https://latex.codecogs.com/gif.latex?P(\theta|X)" title="P(\theta|X)" />.</p>
+          <h4 id="references">References</h4>
+          <ul>
+          <li><a href="https://en.wikipedia.org/wiki/Bayesian_inference#:~:text=Bayesian%20inference%20is%20a%20method,and%20especially%20in%20mathematical%20statistics.">Bayesian inference From Wikipedia</a></li>
+          <li><a href="https://blog.csdn.net/Quincuntial/article/details/80528489">贝叶斯估计、最大似然估计、最大后验概率估计</a></li>
+          <li><a href="https://ocw.mit.edu/courses/mathematics/18-05-introduction-to-probability-and-statistics-spring-2014/readings/MIT18_05S14_Reading15a.pdf">Conjugate priors: Beta and normal</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <ul class="list-inline text-center">
+            <li class="list-inline-item">
+              <a href="https://www.linkedin.com/in/qi-jin-8ba329128/">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+         <!--  <li class="list-inline-item">
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li> -->
+            <li class="list-inline-item">
+              <a href="https://github.com/uttgeorge">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+          </ul>
+		  <p class="copyright text-muted">Email:<a  href = "mailto: jin.qi1@northeastern.edu"> jin.qi1@northeastern.edu</a>  Tel: <a href="tel:+1617-259-7194">+1617-259-7194</a></p>
+          <p class="copyright text-muted">Copyright &copy; Qi Jin 2020</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/clean-blog.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,516 @@
+<!DOCTYPE html><html>
+
+<head>
+<meta charset="utf-8">
+<title>Gradient Descent</title>
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    color: #fff;
+    background-color: #282a36;
+    margin: 20px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+a {
+    color: #59acf3;word-wrap: break-word; word-break: break-all;
+}
+a:hover {
+    color: #a7d8ff;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+img{max-width: 100%;}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #fff;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 26px;
+}
+h2 {
+    font-size: 22px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+	color: #ff4a14;
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #bf370f;
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;background-color: #272822;
+}
+pre code {
+    
+    color: #f8f8f2;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+figcaption{text-align:center;}
+
+/* PrismJS 1.14.0
+https://prismjs.com/download.html#themes=prism-okaidia&languages=markup+css+clike+javascript */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+    color: #f8f8f2;
+    background: none;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+    padding: 1em;
+    margin: .5em 0;
+    overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+    background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+    padding: .1em;
+    white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: slategray;
+}
+
+.token.punctuation {
+    color: #f8f8f2;
+}
+
+.namespace {
+    opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+    color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+    color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+    color: #e6db74;
+}
+
+.token.keyword {
+    color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+    color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+    font-weight: bold;
+}
+.token.italic {
+    font-style: italic;
+}
+
+.token.entity {
+    cursor: help;
+}
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+.line-numbers-rows > span {
+    pointer-events: none;
+    display: block;
+    counter-increment: linenumber;
+}
+
+.line-numbers-rows > span:before {
+    content: counter(linenumber);
+    color: #999;
+    display: block;
+    padding-right: 0.8em;
+    text-align: right;
+}
+
+</style>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_SVG-full"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+<style> @media print{ code[class*="language-"],pre[class*="language-"]{overflow: visible; word-wrap: break-word !important;} }</style></head><body><div id="markdown-body-wrap" class="markdown-body">
+<h1 id="toc_0">Gradient Descent</h1>
+
+<h2 id="toc_1">Optimization Problem</h2>
+
+<p>Optimization problem is the problem to find extrema. Extrema (Maxima or minima) definitely locates on the point where gradient equals 0. We can use this approach if a function is differentiable.</p>
+
+<p>Normally, we always deal with minima, since \(max: f(x) = min: -f(x)\).</p>
+
+<p>Now, we start with optimization problems <mark>without constraints</mark>:</p>
+
+<p>Suppose \(x^*\) is the <strong>global minima</strong> of a optimization problem, then for all \(x\) in the feasible region</p>
+
+<p>\[<br/>
+f(x^*)\le f(x)<br/>
+\]</p>
+
+<p>While for the <strong>local minima</strong> \(x^*\), there exists a neighborhood \(\delta\), for x in this neighborhood<br/>
+\[<br/>
+||x-x^*||\le \delta<br/>
+\]</p>
+
+<p>and also in the feasible region</p>
+
+<p>\[<br/>
+f(x^*)\le f(x)<br/>
+\]</p>
+
+<p>Our goal is to find the <strong>global minima</strong> instead of <strong>local minima</strong>. Unfortunately, some functions may have multiple local minimum. So even we find a point where derivate equals 0, we can not be sure that this point is the global minima.</p>
+
+<h2 id="toc_2">Derivative and Gradient</h2>
+
+<h3 id="toc_3">1. 1st Derivative: Gradient</h3>
+
+<p>Now set the gradient of multivariate function as:</p>
+
+<p>\[<br/>
+\nabla f(x) = \Big(\frac{\partial f}{\partial x_1},\frac{\partial f}{\partial x_2},...,\frac{\partial f}{\partial x_n} \Big)^T<br/>
+\]</p>
+
+<p>\(\nabla\) is gradient operator, it is applied on a multivariate function, and get a vector.</p>
+
+<p><mark>Example:</mark></p>
+
+<p>\[\nabla(x^2+xy-y^2)=(2x+y,x-2y)\]</p>
+
+<p>The point where gradient equals 0 is called <strong>stationary point</strong>, or a hypothetical extrema. When reach a extrema, the gradient must be 0, <mark>but not vice versa</mark>.</p>
+
+<h3 id="toc_4">2. 2nd Derivative: Hessian Matrix</h3>
+
+<p>Suppose we found a extrema, how could we determine if it is a minima or maxima?</p>
+
+<p>It is determined by <strong>2nd derivative or Hessian Matrix</strong>:</p>
+
+<ul>
+<li>if Hessian Matrix is positive definite, then minima;</li>
+<li>if Hessian Matrix is negative definite, then maxima;</li>
+<li>if Hessian Matrix is not definite, further discussion required.</li>
+</ul>
+
+<p>For positive definite, please check <a href="https://github.com/uttgeorge/Linear-Algebra/blob/master/25-Symmetric%20Matrices%20%26%20Positive%20Definitness.pdf">18.06 Notes Symmetric Matrices &amp; Positive Definite</a>.</p>
+
+<h3 id="toc_5">3. Iteration</h3>
+
+<p>Sometimes, it is really hard to calculate the minima. We choose a method to approximate the solution, which is iteration. We begin with a point \(x_0\), repeat by some rule moving from \(x_k\) to \(x_{k+1}\) till it converge to the point where gradient is 0.<br/>
+\[<br/>
+\lim_{k\rightarrow  +\infty} \nabla f(x_k) = 0<br/>
+\] </p>
+
+<p>So the key issue here is to find a iterative function to find the next point, based on 1st derivative (<strong>Gradient</strong>) and 2nd derivative (<strong>Hessian Matrix</strong>).</p>
+
+<p>\[<br/>
+x_{k+1} = h(x_k)<br/>
+\]</p>
+
+<h2 id="toc_6">Gradient Descent</h2>
+
+<!--
+_**1. One Dimensional (one variable) function**_
+
+The Taylor polynomial of a differentiable function:
+$$
+f(x+\Delta x)= f(x)+f'(x)\Delta x+\frac{1}{2}f''(x_0)(\Delta x)^2+...+\frac{1}{n!}f^{(n)}(x)(\Delta x)^n...
+
+_**Multi-variables function**_
+$$-->
+
+<h3 id="toc_7">1. Direction of Gradient Descent</h3>
+
+<p>The Taylor polynomial of a differentiable function at point \(x\):</p>
+
+<p>\[<br/>
+f(X+ \Delta x)= f(X)+(\nabla f(X))^T\Delta x + o(\Delta x)<br/>
+\]</p>
+
+<p>The relationship between increment of function, \(\Delta x\) and gradient can be shown as:</p>
+
+<p>\[<br/>
+    f(x+\Delta x)-f(x) = (\nabla f(X))^T\Delta x + o(\Delta x)<br/>
+\] </p>
+
+<p>If \(\Delta x\) is small enough, we can simply ignore quadratic term and higher-dimensional terms:</p>
+
+<p>\[<br/>
+    f(x+\Delta x)-f(x) \approx (\nabla f(X))^T\Delta x <br/>
+\]</p>
+
+<p>where \(\Delta x\) is a vector with infinite directions. To which direction should we go? </p>
+
+<p>If we can make sure that:</p>
+
+<p>\[<br/>
+(\nabla f(X))^T\Delta x &lt; 0<br/>
+\]</p>
+
+<p>then:</p>
+
+<p>\[<br/>
+f(x+\Delta x)&lt;f(x)<br/>
+\]</p>
+
+<p>the function decrease progressively. That is the right direction we should go. </p>
+
+<p>And since we know that: </p>
+
+<p>\[(\nabla f(X))^T\Delta x=\left \| \nabla f(X) \right \|\left \| \nabla \Delta x \right \| cos\theta\]</p>
+
+<p>where \(\left \| \cdot \right \|\) is the norm of vector, \(\theta\) is the angle between vector \(\nabla f(X)\) and vector \(\Delta x\). Since norm is non-negative, if \(cos \theta \le 0\), then \((\nabla f(X))^T\Delta x \le 0\) always holds.</p>
+
+<p>\(cos \theta \le 0\) reach its minima -1 at \(\theta = \pi\). In other words, \(\Delta x\) and gradient are in opposite direction.</p>
+
+<p>\[<br/>
+(\nabla f(X))^T\Delta x = -\left \| \nabla f(X) \right \|\left \| \nabla \Delta x \right \|<br/>
+\]</p>
+
+<p>Now set:<br/>
+\[<br/>
+\Delta x = -\alpha \nabla f(X), \alpha &gt; 0<br/>
+\]</p>
+
+<p>So that:<br/>
+\[<br/>
+(\nabla f(X))^T\Delta x=-\alpha (\nabla f(X))^T(\nabla f(X))&lt;0<br/>
+\]</p>
+
+<p><mark>The function decreases faster on the opposite direction of gradient.</mark></p>
+
+<h3 id="toc_8">2. Learning Rate</h3>
+
+<p>If we set \(\Delta x = -\nabla f(X)\), \(x+\Delta x\) may be out of the neighbor, in other words, \(\left \| x-x^* \right \| &gt; \delta\) . In this case, we can not ignore quadratic term for approximation. So we set a learning rate that is between 0 and 1 to make sure \(\left \| x-x^* \right \| \le \delta\) , then we can ignore higher terms.</p>
+
+<p><mark>So we get:</mark></p>
+
+<p>\[<br/>
+x_{k+1}=x_k-\alpha \nabla f(x_k)<br/>
+\]</p>
+
+<h2 id="toc_9">Problems</h2>
+
+<h3 id="toc_10">1. Local Minimum</h3>
+
+<p><img src="media/15916918238461/15916995092587.png" alt=""/></p>
+
+<h3 id="toc_11">2. Saddle Points</h3>
+
+<p>Points where gradients equal to 0 but neither local minimum nor global minimum. Hessian Matrix is neither positive definite nor negative definite.</p>
+
+<p><img src="media/15916918238461/15916996897579.jpg" alt=""/></p>
+
+<h2 id="toc_12">Improvements</h2>
+
+<h3 id="toc_13">1. Stochastic Gradient Descent</h3>
+
+<h3 id="toc_14">2. Mini-batch Gradient Descent</h3>
+
+<h2 id="toc_15">Advanced Gradient Descent Algorithms</h2>
+
+<h3 id="toc_16">1. Momentum</h3>
+
+<h3 id="toc_17">2. Adagrad: adaptive gradient</h3>
+
+<h3 id="toc_18">3. AdaDelta</h3>
+
+<h3 id="toc_19">4. Adam: adaptive moment estimation</h3>
+
+<h2 id="toc_20">References</h2>
+
+<p>Wikipedia</p>
+
+<p>SIGAI-AI</p>
+
+</div></body>
+
+</html>

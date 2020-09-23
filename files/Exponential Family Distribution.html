@@ -1,0 +1,634 @@
+<!DOCTYPE html><html>
+
+<head>
+<meta charset="utf-8">
+<title>Exponential Family Distribution</title>
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    color: #fff;
+    background-color: #282a36;
+    margin: 20px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+a {
+    color: #59acf3;word-wrap: break-word; word-break: break-all;
+}
+a:hover {
+    color: #a7d8ff;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+img{max-width: 100%;}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #fff;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 26px;
+}
+h2 {
+    font-size: 22px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+	color: #ff4a14;
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #bf370f;
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;background-color: #272822;
+}
+pre code {
+    
+    color: #f8f8f2;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+figcaption{text-align:center;}
+
+/* PrismJS 1.14.0
+https://prismjs.com/download.html#themes=prism-okaidia&languages=markup+css+clike+javascript */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+    color: #f8f8f2;
+    background: none;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+    padding: 1em;
+    margin: .5em 0;
+    overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+    background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+    padding: .1em;
+    white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: slategray;
+}
+
+.token.punctuation {
+    color: #f8f8f2;
+}
+
+.namespace {
+    opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+    color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+    color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+    color: #e6db74;
+}
+
+.token.keyword {
+    color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+    color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+    font-weight: bold;
+}
+.token.italic {
+    font-style: italic;
+}
+
+.token.entity {
+    cursor: help;
+}
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+.line-numbers-rows > span {
+    pointer-events: none;
+    display: block;
+    counter-increment: linenumber;
+}
+
+.line-numbers-rows > span:before {
+    content: counter(linenumber);
+    color: #999;
+    display: block;
+    padding-right: 0.8em;
+    text-align: right;
+}
+
+</style>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_SVG-full"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+<style> @media print{ code[class*="language-"],pre[class*="language-"]{overflow: visible; word-wrap: break-word !important;} }</style></head><body><div id="markdown-body-wrap" class="markdown-body">
+<h1 id="toc_0">Exponential Family Distribution</h1>
+
+<p>这一部分几乎都是笔记，视频请参考：<a href="https://www.bilibili.com/video/BV1QW411y7D3?p=5">白板推导系列(八)-指数族分布</a></p>
+
+<h2 id="toc_1">1. 指数族分布的形式</h2>
+
+<p>指数族标准形式：<br/>
+\[<br/>
+P(x|\eta) =h(x)\cdot \exp(\underset{线性组合}{\underbrace{\eta^T\phi(x)}}-A(\eta))<br/>
+\]</p>
+
+<ul>
+<li>\(x\in \mathbb{R}^p\)</li>
+<li>\(\eta:\) 规范化参数向量, P维，是一个关于参数\(\theta\)的函数</li>
+<li>\(A(\eta):\) log partition function (对数配分函数)</li>
+<li>\(\phi(x):\) 充分统计量，只和x有关的函数</li>
+<li><p>\(h(x):\) 只和x有关的函数</p></li>
+</ul>
+
+<ol>
+<li><p>什么是配分函数 partition function：<br/>
+\[<br/>
+P(x|\theta)=\frac{1}{Z}\hat{P}(x|\theta)<br/>
+\]<br/>
+Z: 暂时理解为归一化因子，也就是配分函数。</p></li>
+<li><p>为什么配分函数叫做 log partition function， 为什么是\(A(\eta)\)这种形式？<br/>
+\(A(\eta)\)可以直接提取出来，于是指数族标准形式可以改写为：<br/>
+\[\begin{align*}<br/>
+P(x|\eta) &amp;=h(x)\cdot \exp(\eta^T\phi(x))\cdot \exp(-A(\eta))\\\\<br/>
+&amp;=\frac{1}{\exp(A(\eta))}h(x)\cdot \exp(\eta^T\phi(x))\\\\<br/>
+&amp;=\frac{1}{Z}\hat{P}(x|\theta)<br/>
+\end{align*}\]<br/>
+所以可以认为\(Z=\exp(A(\eta))\)， 那么\(A(\eta)=log(Z)\), 因为\(Z\)被称为partition function，所以\(A(\eta)\)就叫log partition function。</p></li>
+<li><p>常见指数族分布</p>
+<p>高斯分布， 伯努利分布----&gt; 类别分布， 二项分布----&gt; 多项式分布， 泊松分布， beta， dirichlet， gamma</p></li>
+</ol>
+
+<h2 id="toc_2">2. 指数族分布的性质</h2>
+
+<p>指数族分布具有三大特性：</p>
+
+<ol>
+<li><p>充分统计量</p>
+<p>\(\phi(x)\) 是充分统计量。统计量是指关于样本的函数（例如样本均值，方差等），是对数据的加工。充分统计量是指包含数据所有信息的统计量，能完整的表达总体的特征。</p>
+<p>例：</p>
+<p>一个组数据满足高斯分布，\(x_1,x_2,x_3,...,x_n\)。我们只需要得到以下两个值，就能描述整个样本（可求得均值，方差）：<br/>
+\[<br/>
+\phi(x)=\begin{pmatrix}<br/>
+\sum_{i=1}^{N}x_i<br/>
+\\\\<br/>
+\sum_{i=1}^{N}x_i^2<br/>
+\end{pmatrix}<br/>
+\]<br/>
+对于指数族分布，\(\phi(x)\)本身具备了充分统计量的性质。</p>
+<p>用处：online learning</p></li>
+<li><p>共轭</p>
+<p>贝叶斯理论：<br/>
+\[<br/>
+P(Z|X) = \frac{P(X|Z)P(Z)}{\int_{Z}P(X|Z)P(Z)dZ}<br/>
+\]<br/>
+由于积分无法求出，或者后验的形式太复杂，无法求出期望。</p>
+<p>我们可以采用了近似推断求后验，例如：变分推断，MCMC。</p>
+<p>共轭是求后验的另一种方法，如果一个likelihood具有一个与其共轭的先验概率，那么先验概率和后验概率具有相同的分布。例如：似然函数是二项式分布，那么beta与其共轭，后验概率也是beta分布，只不过两个beta分布参数不同。由此，我们能避免求积分。</p></li>
+<li><p>最大熵（无信息先验）</p>
+<p>在给定一个限制条件的情况下，未知部分我们假设是等可能发生的。但等可能是无法定量分析，所以引入熵，使其熵值最大。最大熵的本质就是让数据更加随机。</p>
+<p>对于贝叶斯原理，有两种给出先验\(P(Z)\)的方式：</p>
+<ul>
+<li>共轭： 为了计算方便</li>
+<li>最大熵： 无信息先验，按照最大熵的原理来提供先验。</li>
+<li>Jerrif</li>
+</ul></li>
+</ol>
+
+<h2 id="toc_3">3. 指数族分布的模型</h2>
+
+<ol>
+<li><p>广义线性模型 GLM</p>
+<ol>
+<li>线性组合：\(w^Tx\)</li>
+<li>Link Function: 链接函数，是激活函数的反函数</li>
+<li>指数族分布：\((y|x) \sim 指数族分布\)<br/>
+例如:
+<ul>
+<li>线性回归：\(y\sim N(\mu,\Sigma)\)</li>
+<li>二分类：\(y\sim Bernoulli\)</li>
+<li>柏松回归： \(y\sim Possion\)</li>
+</ul></li>
+</ol></li>
+<li><p>概率图模型</p>
+<p>无向图：RBM</p></li>
+<li><p>变分推断</p></li>
+</ol>
+
+<h2 id="toc_4">4. 高斯分布的指数族形式</h2>
+
+<p>一维高斯分布<br/>
+\[<br/>
+P(X|\theta)=\frac{1}{\sqrt{2\pi}\sigma}\exp\Big(-\frac{(x-\mu)^2}{2\sigma^2}\Big),\ \theta=(\mu,\sigma^2)<br/>
+\]<br/>
+注：\(\eta\)其实也是一个函数，\(\eta=\eta(\theta),A(\eta)=A(\eta(\theta))\)<br/>
+所以我们要把上式改写成指数族分布的形式，就是把\(\theta\)映射到\(\eta\)上，也就是用\(\mu,\sigma^2\)来表示\(\eta\)。</p>
+
+<p>\[\begin{align*}<br/>
+P(X|\theta)&amp;=\frac{1}{\sqrt{2\pi}\sigma}\exp\bigg\lbrace-\frac{(x-\mu)^2}{2\sigma^2}\bigg\rbrace,\theta=(\mu,\sigma^2)\\\\<br/>
+&amp;=\frac{1}{\sqrt{2\pi\sigma^2}}\exp\bigg\lbrace-\frac{1}{2\sigma^2}(x^2-2\mu x+\mu^2)\bigg\rbrace\\\\<br/>
+&amp;=exp\bigg\lbrace\log(2\pi\sigma^2)^{-\frac{1}{2}}\bigg\rbrace\exp\bigg\lbrace-\frac{1}{2\sigma^2}(x^2-2\mu x)-\frac{\mu^2}{2\sigma^2}\bigg\rbrace\\\\<br/>
+&amp;=exp\bigg\lbrace\log(2\pi\sigma^2)^{-\frac{1}{2}}\bigg\rbrace\exp\bigg\lbrace-\frac{1}{2\sigma^2}\big[\begin{pmatrix}<br/>
+-2\mu &amp;1<br/>
+\end{pmatrix}\cdot \begin{pmatrix}<br/>
+x<br/>
+\\\\ <br/>
+x^2<br/>
+\end{pmatrix}\big]-\frac{\mu^2}{2\sigma^2}\bigg\rbrace\\\\<br/>
+&amp;=\exp\bigg\lbrace\big[\underset{\eta^T}{\underbrace{\begin{pmatrix}<br/>
+\frac{\mu}{\sigma^2} &amp;-\frac{1}{2\sigma^2}<br/>
+\end{pmatrix}}}\cdot \underset{\phi(x)}{\underbrace{\begin{pmatrix}<br/>
+x<br/>
+\\\\ <br/>
+x^2<br/>
+\end{pmatrix}}}\big]-\underset{A(\eta)}{\underbrace{\big[\frac{\mu^2}{2\sigma^2}+\frac{1}{2}\log(2\pi\sigma^2)\big]}}\bigg\rbrace\\\\<br/>
+&amp;=\exp(\eta^T\phi(x)-A(\eta))<br/>
+\end{align*}<br/>
+\]</p>
+
+<p>其中，</p>
+
+<p>\[\begin{align*}<br/>
+&amp;1.\ \eta=\begin{pmatrix}<br/>
+\eta_1<br/>
+\\\\ <br/>
+\eta_2<br/>
+\end{pmatrix} =\begin{pmatrix}<br/>
+\frac{\mu}{\sigma^2}<br/>
+\\\\ <br/>
+-\frac{1}{2\sigma^2}<br/>
+\end{pmatrix}\ \Rightarrow\ \left\lbrace\begin{matrix}<br/>
+\sigma^2=-\frac{1}{2\eta_2}<br/>
+\\\\ <br/>
+\mu =-\frac{\eta_1}{2\eta_2}<br/>
+\end{matrix}\right.\\\\<br/>
+&amp;2.\ A(\eta)=-\frac{\eta_1^2}{4\eta_2}+\frac{1}{2}\log \big(-\frac{\pi}{\eta_2}\big)\\\\<br/>
+&amp;3.\ \phi(x)=\begin{pmatrix}<br/>
+x<br/>
+\\\\ <br/>
+x^2<br/>
+\end{pmatrix}<br/>
+\end{align*}<br/>
+\]</p>
+
+<h2 id="toc_5">5. 对数配分函数 log partition function \(A(\eta)\)</h2>
+
+<p>概率密度函数的积分为1:</p>
+
+<p>\[\begin{align*}<br/>
+P(x|\eta) &amp;=h(x)\cdot \exp(\eta^T\phi(x))\cdot \exp(-A(\eta))\\\\<br/>
+&amp;=\frac{1}{\exp(A(\eta))}h(x)\cdot \exp(\eta^T\phi(x))\\\\<br/>
+&amp;=\frac{1}{Z}\hat{P}(x|\theta)\\\\<br/>
+\int P(x|\eta)dx &amp;= 1=\frac{1}{\exp(A(\eta))}\int h(x)\cdot \exp(\eta^T\phi(x))dx\\\\<br/>
+\exp(A(\eta))&amp;=Z=\int h(x)\cdot \exp(\eta^T\phi(x))dx<br/>
+\end{align*}\]</p>
+
+<p>同时对等式两边的\(\eta\)求导：</p>
+
+<p>\[\begin{align*}<br/>
+\exp(A(\eta))A&#39;(\eta)&amp;=\frac{\partial}{\partial \eta} \int h(x)\cdot \exp(\eta^T\phi(x))dx\\\\<br/>
+\exp(A(\eta))A&#39;(\eta)&amp;=\int h(x)\cdot \exp(\eta^T\phi(x))\phi(x)dx\\\\<br/>
+A&#39;(\eta)&amp;=\frac{\int h(x)\cdot \exp(\eta^T\phi(x))\phi(x)dx}{\exp(A(\eta))}\\\\<br/>
+&amp;=\int h(x)\cdot \exp(\eta^T\phi(x)-A(\eta))\phi(x)dx\\\\<br/>
+&amp;=\int P(x|\eta)\phi(x)dx\\\\<br/>
+&amp;=E_{P(x|\eta)}[\phi(x)]\\\\<br/>
+\end{align*}\]</p>
+
+<p>于是得出，对数配分函数的一阶导数\(A&#39;(\eta)\)等于充分统计量的期望。</p>
+
+<p>而其二阶导数\(A&#39;&#39;(\eta)=Var[\phi(x)]\)，是充分统计量的方差。 证明略。</p>
+
+<p>由由于方差一定为正，所以可知\(A(\eta)\)一定是凸函数。</p>
+
+<ul>
+<li><p>用之前高斯分布举例：</p>
+<p>对\(\phi(x)\)求期望：<br/>
+\[<br/>
+E[\phi(x)]=\begin{pmatrix}<br/>
+E(x)<br/>
+\\\\ <br/>
+E(x^2)<br/>
+\end{pmatrix} <br/>
+\]</p>
+<p>已知\(E(x)=\mu\)，那下面证明\(A(\eta)\)关于\(\eta_1\)的一阶导数是\(\mu\)。</p>
+<p>\[\begin{align*}<br/>
+A&#39;(\eta)&amp;=\frac{\partial A(\eta)}{\partial \eta_1}\\\\<br/>
+&amp;=-\frac{\eta_1}{2\eta_2}\\\\<br/>
+&amp;=\mu<br/>
+\end{align*}<br/>
+\]</p></li>
+</ul>
+
+<h2 id="toc_6">6. 极大似然估计</h2>
+
+<p>现在从极大似然估计的角度，来理解指数族分布。</p>
+
+<p>设一组数据：\(D={x_1,x_2,...,x_N}\)，其参数的极大似然估计为：</p>
+
+<p>\[\begin{align*}<br/>
+\eta_{MLE}&amp;=argmax \log P(X|\eta)\\\\<br/>
+&amp;=argmax \log \prod_{i=1}^{N} P(x_i|\eta)\\\\<br/>
+&amp;=argmax \sum_{i=1}^{N} \log  P(x_i|\eta)\\\\<br/>
+&amp;=argmax \sum_{i=1}^{N} \log  \bigg[h(x_i)\cdot \exp(\eta^T\phi(x_i)-A(\eta))\bigg]\\\\<br/>
+&amp;=argmax \sum_{i=1}^{N}  \bigg[\log h(x_i)+\eta^T\phi(x_i)-A(\eta)\bigg]\\\\<br/>
+&amp;因为\log h(x)\ 与\eta 无关，所以可以忽略。\\\\<br/>
+&amp;=argmax \sum_{i=1}^{N}  \bigg[\eta^T\phi(x_i)-A(\eta)\bigg]\\\\<br/>
+\\<br/>
+\frac{\partial }{\partial \eta}\eta_{MLE}&amp;=  \sum_{i=1}^{N}  \bigg[\phi(x_i)-A&#39;(\eta)\bigg]\\\\<br/>
+&amp;=\sum_{i=1}^{N}  \bigg[\phi(x_i)\bigg]-NA&#39;(\eta)=0\\\\<br/>
+\\<br/>
+\Rightarrow A&#39;(\eta_{MLE})&amp;=\frac{1}{N}\sum_{i=1}^{N}  \bigg[\phi(x_i)\bigg]<br/>
+\end{align*}<br/>
+\]</p>
+
+<p>我们已知\(A(\eta)\)和\(A&#39;(\eta)\)，现求\(\eta\)， 只需要求\(A&#39;(\eta)\)的反函数：</p>
+
+<p>\[<br/>
+\eta_{MLE}={A&#39;}^{-1}(\eta_{MLE})<br/>
+\]</p>
+
+<p>也就是说，要求\(\eta_{MLE}\)，我们只需要将<strong>充分统计量</strong>求和，然后再求其反函数即可，无需使用所有数据。这也就是充分统计量的优势。</p>
+
+<h2 id="toc_7">7. 最大熵原理</h2>
+
+<p><strong>最大熵原理是指，在已知一定约束条件下，寻找使其熵值最大的分布。</strong></p>
+
+<ol>
+<li><p>信息量：</p>
+<p>一个随机变量的概率为\(P\)，其信息量为\(\log\frac{1}{p}=-\log{p}\)。</p></li>
+<li><p>信息熵</p>
+<p>信息熵其实是信息量的期望：<br/>
+\[\begin{align*}<br/>
+E[-\log{p(x)}]&amp;=\int -p(x)\log{p(x)}dx\\\\<br/>
+&amp;=-\sum p(x)\log{p(x)}\\\\<br/>
+H[P] &amp;=-\sum p(x)\log{p(x)}<br/>
+\end{align*}<br/>
+\]</p></li>
+<li><p><strong>在无任何信息先验的情况下，最大熵与等可能是等价的</strong>，证明如下：</p>
+<p>假设k个变量x，每个变量的所对应的概率为\(p_k\)，使总信息熵最大：<br/>
+\[Max:\ \sum_{i=1}^{k}-p_i\log{p_i}\\\\<br/>
+s.t.\ \sum_{i=1}^{k}p_i=1\]<br/>
+这是一个有约束的最优化问题，利用Lagrange Multiplier:<br/>
+\[<br/>
+Max:\ L(p,\lambda) = \sum_{i=1}^{k}-p_i\log{p_i}+\lambda (\sum_{i=1}^{k}p_i-1),\ s.t. \lambda&gt;0<br/>
+\]<br/>
+等价于：<br/>
+\[<br/>
+Min:\ L(p,\lambda) = \sum_{i=1}^{k}p_i\log{p_i}-\lambda (\sum_{i=1}^{k}p_i-1)<br/>
+\]<br/>
+求\(L(p,\lambda)\)关于\(p_i\)的偏导数，（求\(p_1\)偏导时，其他p相当于常数）<br/>
+\[\begin{align*}<br/>
+\frac{\partial L}{\partial p_i}&amp;=\log{p_i}+1-\lambda=0\\\\<br/>
+\hat p_i&amp;=\exp(\lambda-1)<br/>
+\end{align*}<br/>
+\]<br/>
+由于\(\lambda\)是一个常量，所以\(p_1=p_2=...=p_k=\frac{1}{k}\)。</p>
+<p>所以\(P(x)\)是均匀分布。</p></li>
+<li><p><strong>经验分布下的最大熵</strong></p>
+<p>已知一组数据，\(X\in\lbrace x_1,x_2,...,x_N\rbrace\)</p>
+<blockquote>
+<p>4.1 经验分布</p>
+<p>是对已知样本的描述，其概率密度函数为：<br/>
+\[<br/>
+\hat P(X=x)=\hat p(x)=\frac{count(x)}{N}<br/>
+\]<br/>
+该函数的含义是：等于\(x\)的变量出现的频率。可以求出该分布的期望\(E_{\hat P}[X]\)，方差\(Var_{\hat P}[X]\)等。</p>
+<p>令\(f(x)\)是任意关于x的<strong>函数向量</strong>：<br/>
+\[E_{\hat P}[f(x)]=\Delta\]<br/>
+\(\Delta\)是一个向量，并且已知，这就是求最大熵的约束条件。</p>
+<p>4.2 最大熵</p>
+<p>信息熵公式：<br/>
+\[\begin{align*}<br/>
+min:\ H[P] &amp;=\sum p(x)\log{p(x)}\\\\<br/>
+s.t.\ &amp;\sum p(x)=1\\\\<br/>
+&amp;E_{ P}[f(x)]=E_{\hat P}[f(x)]=\Delta<br/>
+\end{align*}\]<br/>
+引入Lagrange Multiplier:<br/>
+\[<br/>
+L(p,\lambda)=\sum p(x)\log{p(x)} + \lambda_0(1-\sum p(x)) + \lambda^T(\Delta-E_{P}[f(x)])<br/>
+\]<br/>
+对其求导：<br/>
+\[\begin{align*}<br/>
+\frac{\partial}{\partial p(x)}L(p,\lambda)=\sum (\log{p(x)} + 1)- \sum \lambda_0 - \sum\lambda^Tf(x)&amp;=0\\\\<br/>
+\sum \Big(\log{p(x)} + 1-  \lambda_0 - \lambda^Tf(x)\Big)&amp;=0<br/>
+\end{align*}<br/>
+\]<br/>
+由于\(p(x)\)和\(\lambda^T\)实际上是向量，所以要保证每一项都为0，则：<br/>
+\[\log{p(x)} + 1-  \lambda_0 - \lambda^Tf(x)=0\]<br/>
+得到：<br/>
+\[\begin{align*}<br/>
+\log{p(x)} &amp;= \lambda^Tf(x)+\lambda_0-1\\\\<br/>
+p(x)&amp;=\exp \lbrace \lambda^Tf(x)-（1-\lambda_0） \rbrace\\\\<br/>
+&amp;=\exp\lbrace\eta^T\phi(x)-A(\eta)\rbrace<br/>
+\end{align*}<br/>
+\]<br/>
+由此可知，在有约束条件（经验分布）情况下，使其熵值最大的概率分布为指数族分布。</p>
+</blockquote></li>
+</ol>
+
+<h2 id="toc_8">8. 共轭分布</h2>
+
+<p>待补充</p>
+
+</div></body>
+
+</html>

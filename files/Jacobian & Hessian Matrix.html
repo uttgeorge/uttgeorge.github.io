@@ -1,0 +1,403 @@
+<!DOCTYPE html><html>
+
+<head>
+<meta charset="utf-8">
+<title>Jacobian & Hessian Matrix</title>
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    color: #fff;
+    background-color: #282a36;
+    margin: 20px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+a {
+    color: #59acf3;word-wrap: break-word; word-break: break-all;
+}
+a:hover {
+    color: #a7d8ff;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+img{max-width: 100%;}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #fff;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 26px;
+}
+h2 {
+    font-size: 22px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+	color: #ff4a14;
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #bf370f;
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;background-color: #272822;
+}
+pre code {
+    
+    color: #f8f8f2;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+figcaption{text-align:center;}
+
+/* PrismJS 1.14.0
+https://prismjs.com/download.html#themes=prism-okaidia&languages=markup+css+clike+javascript */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+    color: #f8f8f2;
+    background: none;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+    padding: 1em;
+    margin: .5em 0;
+    overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+    background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+    padding: .1em;
+    white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: slategray;
+}
+
+.token.punctuation {
+    color: #f8f8f2;
+}
+
+.namespace {
+    opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+    color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+    color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+    color: #e6db74;
+}
+
+.token.keyword {
+    color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+    color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+    font-weight: bold;
+}
+.token.italic {
+    font-style: italic;
+}
+
+.token.entity {
+    cursor: help;
+}
+
+pre[class*="language-"].line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+    position: relative;
+    white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+.line-numbers-rows > span {
+    pointer-events: none;
+    display: block;
+    counter-increment: linenumber;
+}
+
+.line-numbers-rows > span:before {
+    content: counter(linenumber);
+    color: #999;
+    display: block;
+    padding-right: 0.8em;
+    text-align: right;
+}
+
+</style>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_SVG-full"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({TeX: { equationNumbers: { autoNumber: "AMS" } }});</script>
+<style> @media print{ code[class*="language-"],pre[class*="language-"]{overflow: visible; word-wrap: break-word !important;} }</style></head><body><div id="markdown-body-wrap" class="markdown-body">
+<h1 id="toc_0">Jacobian &amp; Hessian Matrix</h1>
+
+<h2 id="toc_1">1. Jacobian</h2>
+
+<h3 id="toc_2">1.1 Jacobian Matrix</h3>
+
+<p>The Jacobian matrix of a vector-valued function in several variables is the matrix of all its first-order partial derivatives. </p>
+
+<p>Suppose \(f: \mathbb{R}_n \rightarrow \mathbb{R}_m\), is a vector-valued function that each of its first-order partial derivatives exist on \(\mathbb{R}_n\). This function takes a point \(x\in \mathbb{R}_n\) as input and produces the vector \(f(x)\in \mathbb{R}_m\) as output. To be more clear, \(f\) is a vector-valued function of several real-valued functions.</p>
+
+<p>\[<br/>
+\left\lbrace\begin{matrix}<br/>
+y_1=f_1(x_1,x_2,...,x_n)<br/>
+\\\\<br/>
+y_2=f_2(x_1,x_2,...,x_n)<br/>
+\\\\<br/>
+... <br/>
+\\\\<br/>
+y_m=f_m(x_1,x_2,...,x_n) <br/>
+\end{matrix}\right.<br/>
+\]</p>
+
+<p>Then the Jacobian matrix of \(f\) is defined to be an \(m\times n\) matrix, denoted by \(J\), whose \((i,j)_th\) entry is \(J_{i,j}=\frac{\partial {f_i}}{\partial {x_j}}\):</p>
+
+<p>\[<br/>
+J=[\frac{\partial {f}}{\partial {x_1}} ... \frac{\partial {f}}{\partial {x_n}}]= \begin{bmatrix}<br/>
+\frac{\partial {f_1}}{\partial {x_1}} &amp; ... &amp; \frac{\partial {f_1}}{\partial {x_n}}\\\\<br/>
+. &amp; . &amp; .\\\\ <br/>
+\frac{\partial {f_m}}{\partial {x_1}} &amp; ... &amp; \frac{\partial {f_m}}{\partial {x_n}}<br/>
+\end{bmatrix}<br/>
+\]</p>
+
+<p>When \(m=1\), that is when \(f: \mathbb{R}_n → \mathbb{R}\) is a scalar-valued function, the Jacobian matrix reduces to a row vector. This row vector of all first-order partial derivatives of \(f\) is the transpose of the gradient of \(f\). Specialising further, when \(m = n = 1\), that is when \(f: \mathbb{R} → \mathbb{R}\) is a scalar-valued function of a single variable, the Jacobian matrix has a single entry. This entry is the derivative of the function \(f\).</p>
+
+<p>If \(f\) is differentiable at a point \(p\) in \(\mathbb{R}_n\), then its differential is represented by \(J_{f(p)}\). In this case, the linear transformation represented by \(J_{f(p)}\) is the best linear approximation of \(f\) near the point \(p\), in the sense that</p>
+
+<p>\[f(x)\approx f(p) + J_f(p)\cdot (x-p)\]</p>
+
+<h3 id="toc_3">1.2 Jacobian Determinant</h3>
+
+<p>When \(m = n\), the Jacobian matrix is square, so its determinant is a well-defined function of \(x\), known as the Jacobian determinant of \(f\). It carries important information about the local behavior of \(f\). </p>
+
+<ol>
+<li><p>\(det(J) \neq 0\):<br/>
+\(f\) is invertible near a point \(p \in \mathbb{R}_n\) if and only if the Jacobian determinant at \(p\) is non-zero</p></li>
+<li><p>\(det(J) &gt; 0\):<br/>
+\(f\) preserves orientation near \(p\)</p></li>
+<li><p>\(det(J) &lt; 0\):<br/>
+\(f\) reverses orientation</p></li>
+</ol>
+
+<h2 id="toc_4">2. Hessian Matrix</h2>
+
+<p>The Hessian matrix or Hessian is a square matrix of second-order partial derivatives of a scalar-valued function \(f\), or scalar field. It describes the local curvature of a function of many variables.</p>
+
+<p>\[f(x_1,x_2,...,x_n)\]</p>
+
+<p>Suppose \(f: \mathbb{R}_n → \mathbb{R}\) is a function taking as input a vector \(x \in \mathbb{R}_n\) and outputting a scalar \(f(x) \in \mathbb{R}\). If all second partial derivatives of \(f\) exist and are continuous over the domain of the function, then the Hessian matrix \(H\) of \(f\) is a square \(n\times n\) matrix, usually defined and arranged as follows:</p>
+
+<p>\[<br/>
+\begin{bmatrix}<br/>
+\frac{\partial^2 {f}}{\partial {x^2_1}} &amp; \frac{\partial^2 {f}}{\partial {x_1}\partial {x_2}} &amp; ...&amp; \frac{\partial^2 {f}}{\partial {x_1}\partial {x_n}}\\\\<br/>
+\frac{\partial^2 {f}}{\partial {x_2}\partial {x_1}} &amp; \frac{\partial^2 {f}}{\partial {x_{2}^2}} &amp; ...&amp; \frac{\partial^2 {f}}{\partial {x_2}\partial {x_n}} \\\\ <br/>
+... &amp; ... &amp; ...&amp; ...\\\\ <br/>
+\frac{\partial^2 {f}}{\partial {x_n}\partial {x_1}} &amp; \frac{\partial^2 {f}}{\partial {x_n}\partial {x_2}} &amp; ... &amp; \frac{\partial {f}}{\partial {x^2_{n}}}<br/>
+\end{bmatrix}<br/>
+\]</p>
+
+<p>The Hessian matrix is a symmetric matrix.</p>
+
+<h2 id="toc_5">References</h2>
+
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Jacobian_matrix_and_determinant">https://en.wikipedia.org/wiki/Jacobian_matrix_and_determinant</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Hessian_matrix">https://en.wikipedia.org/wiki/Hessian_matrix</a></li>
+</ul>
+
+</div></body>
+
+</html>

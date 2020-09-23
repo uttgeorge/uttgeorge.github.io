@@ -198,7 +198,7 @@ header.masthead .site-heading {
   header.masthead .page-heading,
   header.masthead .post-heading,
   header.masthead .site-heading {
-    padding: 20px 0;
+    padding: 200px 0;
   }
 }
 
@@ -283,7 +283,7 @@ header.masthead .post-heading .meta a {
 }
 
 .post-preview > a > .post-subtitle {
-  font-weight: 300;
+  font-weight: 100;
   margin: 0 0 10px;
 }
 
